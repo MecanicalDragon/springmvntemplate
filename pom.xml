@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.2</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>net.medrag</groupId>
+    <artifactId>springmvntemplate</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springmvntemplate</name>
+    <description>Demo project for Spring application with maven</description>
+
+    <properties>
+        <java.version>11</java.version>
+        <lombok.version>1.18.24</lombok.version>
+
+        <maven-pmd-plugin.version>3.17.0</maven-pmd-plugin.version>
+        <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
+
+        <maven-pmd-plugin.maxAllowedViolations>0</maven-pmd-plugin.maxAllowedViolations>
+        <maven-checkstyle-plugin.maxAllowedViolations>0</maven-checkstyle-plugin.maxAllowedViolations>
+
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+        <!--        alternative is ./cicd/settings.xml, that must be included in maven settings-->
+        <sonar.host.url>http://localhost:5431</sonar.host.url>
+        <sonar.login>756fd08d5285764f2c67f5c844b3b45ffd62bca6</sonar.login>
+        <sonar.projectKey>springmvntemplate</sonar.projectKey>
+        <sonar.coverage.exclusions>
+            **/net/medrag/springmvntemplate/SpringmvntemplateApplication.*
+        </sonar.coverage.exclusions>
+    </properties>
+
+    <!--    <repositories>-->
+    <!--        <repository>-->
+    <!--            <id>custom-fetch-repo</id>-->
+    <!--            <name>Repository to fetch dependencies</name>-->
+    <!--            <url>http://localhost:777</url>-->
+    <!--        </repository>-->
+    <!--    </repositories>-->
+
+    <!--    <distributionManagement>-->
+    <!--        <repository>-->
+    <!--            <id>releases</id>-->
+    <!--            <name>Repository to publish releases</name>-->
+    <!--            <url>http://localhost:777</url>-->
+    <!--            <uniqueVersion>false</uniqueVersion>-->
+    <!--            <layout>default</layout>-->
+    <!--        </repository>-->
+
+    <!--        <snapshotRepository>-->
+    <!--            <id>snapshots</id>-->
+    <!--            <name>Repository to publish snapshots</name>-->
+    <!--            <url>http://localhost:777</url>-->
+    <!--            <uniqueVersion>false</uniqueVersion>-->
+    <!--            <layout>default</layout>-->
+    <!--        </snapshotRepository>-->
+    <!--    </distributionManagement>-->
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- SpringBoot plugin-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- PMD-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven-pmd-plugin.version}</version>
+                <configuration>
+                    <failOnViolation>true</failOnViolation>
+                    <analysisCache>true</analysisCache>
+                    <maxAllowedViolations>${maven-pmd-plugin.maxAllowedViolations}</maxAllowedViolations>
+                    <printFailingErrors>true</printFailingErrors>
+                    <verbose>true</verbose>
+                    <excludeRoots>
+                        <excludeRoot>target/generated-sources/openapi</excludeRoot>
+                    </excludeRoots>
+                    <rulesets>
+                        <ruleset>checkstyle/pmd-ruleset.xml</ruleset>
+                    </rulesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pmd-scan</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>cpd-check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Checkstyle-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <configuration>
+                    <configLocation>checkstyle/checkstyle.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failOnViolation>true</failOnViolation>
+                    <linkXRef>false</linkXRef>
+                    <maxAllowedViolations>${maven-checkstyle-plugin.maxAllowedViolations}</maxAllowedViolations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Jacoco https://www.eclemma.org/jacoco/trunk/doc/maven.html -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>net/medrag/springmvntemplate/SpringmvntemplateApplication.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <!-- prepare agent for measuring unit tests -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- build report -->
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- SonarScanner https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/ -->
+            <!-- `mvn sonar:sonar` automatically publishes test coverage data to configured sonar if it has been generated -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>IT</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/Test*.java</include>
+                                <include>**/*Test.java</include>
+                                <include>**/*Tests.java</include>
+                                <include>**/*TestCase.java</include>
+                                <include>**/*IT.java</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

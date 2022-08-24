@@ -1,0 +1,11 @@
+version: '3'
+
+# Login/password: admin/add
+services:
+  sonar:
+    image: sonarqube:lts-community
+    container_name: "sonar"
+    ports:
+      - 5431:9000
+    volumes:
+      - ./volumes/sonar:/opt/sonarqube/data
