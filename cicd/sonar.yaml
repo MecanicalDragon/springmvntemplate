@@ -3,6 +3,8 @@ version: '3'
 # Login/password: admin/add
 services:
   sonar:
+    labels:
+      purpose: personal
     image: sonarqube:lts-community
     container_name: "sonar"
     ports:

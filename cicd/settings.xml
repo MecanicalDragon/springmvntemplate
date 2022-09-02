@@ -9,14 +9,15 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <!-- Optional URL to server. Default value is http://localhost:9000 -->
                 <!-- Alternative: -->
 <!--                mvn sonar:sonar \-->
 <!--                -Dsonar.projectKey=springmvntemplate \-->
 <!--                -Dsonar.host.url=http://localhost:5431 \-->
 <!--                -Dsonar.login=756fd08d5285764f2c67f5c844b3b45ffd62bca6-->
+                <!-- Optional URL to server. Default value is http://localhost:9000 -->
                 <sonar.host.url>http://localhost:5431</sonar.host.url>
 				<sonar.login>756fd08d5285764f2c67f5c844b3b45ffd62bca6</sonar.login>
+                <!-- For multimodule project property below works improperly. Need to pass it as an argument. -->
                 <sonar.projectKey>springmvntemplate</sonar.projectKey>
             </properties>
         </profile>
