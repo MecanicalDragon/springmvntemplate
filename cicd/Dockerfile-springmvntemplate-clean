@@ -1,0 +1,13 @@
+FROM maven:3.8.6-jdk-11 AS mvn-build
+ARG EXTRA_KEYS=-Dmaven.test.skip=true
+ENV SERVER_PORT=5454
+# Project root is workdir according to the command.
+COPY . /root/application
+
+WORKDIR /root/application
+RUN mvn clean install $EXTRA_KEYS
+
+FROM openjdk:11.0.16-jre AS deployment
+COPY --from=mvn-build root/application/target/*.jar /application.jar
+EXPOSE $SERVER_PORT
+ENTRYPOINT ["java","-jar","/application.jar"]

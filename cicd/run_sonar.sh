@@ -22,8 +22,8 @@ case $i in
           exit ;
         fi
       done
-#    else
-#      exit
+    else
+      exit
   fi
   ;;
 esac
@@ -48,5 +48,5 @@ if [ "$WAIT_USER_INPUT" = "true" ]
     done
   else
     echo "Job is done."
-#    exit
+    exit
 fi

@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+  springmvntemplate-app:
+    labels:
+      purpose: personal
+      version: template
+    image: 'springmvntemplate-image:latest'
+    container_name: "springmvntemplate-app"
+    ports:
+      - "5454:5454"
