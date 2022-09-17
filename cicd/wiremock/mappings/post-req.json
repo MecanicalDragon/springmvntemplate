@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/post-any",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"testDataArray\":[\"testValue1\"]}"
+    } ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "resp1.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
